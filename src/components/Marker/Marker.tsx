@@ -1,4 +1,4 @@
-import { useEffect, useRef, createContext, useContext } from 'react'
+import { useEffect, useState, createContext, useContext } from 'react'
 import L from 'leaflet'
 import type { Marker as LeafletMarker } from 'leaflet'
 import { useMap } from '../../hooks/useMap'
@@ -42,57 +42,56 @@ export function Marker({
   options,
 }: MarkerProps) {
   const map = useMap()
-  const markerRef = useRef<LeafletMarker | null>(null)
+  const [marker, setMarker] = useState<LeafletMarker | null>(null)
 
   useEffect(() => {
     if (!map) return
 
     // Create marker
-    const marker = L.marker(position, {
+    const markerInstance = L.marker(position, {
       draggable,
       opacity,
       alt,
       ...options,
     })
 
-    marker.addTo(map)
-    markerRef.current = marker
+    markerInstance.addTo(map)
+    setMarker(markerInstance)
 
     // Cleanup
     return () => {
-      marker.remove()
-      markerRef.current = null
+      markerInstance.remove()
+      setMarker(null)
     }
   }, [map]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Update position
   useEffect(() => {
-    if (markerRef.current) {
-      markerRef.current.setLatLng(position)
+    if (marker) {
+      marker.setLatLng(position)
     }
-  }, [position])
+  }, [position, marker])
 
   // Update draggable option
   useEffect(() => {
-    if (markerRef.current) {
+    if (marker) {
       if (draggable) {
-        markerRef.current.dragging?.enable()
+        marker.dragging?.enable()
       } else {
-        markerRef.current.dragging?.disable()
+        marker.dragging?.disable()
       }
     }
-  }, [draggable])
+  }, [draggable, marker])
 
   // Update opacity
   useEffect(() => {
-    if (markerRef.current && opacity !== undefined) {
-      markerRef.current.setOpacity(opacity)
+    if (marker && opacity !== undefined) {
+      marker.setOpacity(opacity)
     }
-  }, [opacity])
+  }, [opacity, marker])
 
   // Attach event handlers
   useEffect(() => {
-    const marker = markerRef.current
     if (!marker || !eventHandlers) return
 
     const eventNames = Object.keys(eventHandlers) as Array<keyof typeof eventHandlers>
@@ -114,10 +113,10 @@ export function Marker({
         }
       })
     }
-  }, [eventHandlers])
+  }, [eventHandlers, marker])
 
   return (
-    <MarkerContext.Provider value={{ marker: markerRef.current }}>
+    <MarkerContext.Provider value={{ marker }}>
       {children}
     </MarkerContext.Provider>
   )

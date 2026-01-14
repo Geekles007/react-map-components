@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import L from 'leaflet'
 import type { Popup as LeafletPopup } from 'leaflet'
@@ -41,33 +41,35 @@ export function Popup({
   const map = useMap()
   const marker = useMarker()
   const popupRef = useRef<LeafletPopup | null>(null)
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [container, setContainer] = useState<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (!map) return
 
     // Create container for React portal
-    const container = document.createElement('div')
-    containerRef.current = container
+    const containerElement = document.createElement('div')
+    setContainer(containerElement)
 
-    // Create popup
-    const popup = L.popup({
+    // Create popup with position if standalone
+    const popupOptions = {
       maxWidth,
       minWidth,
       autoClose,
       closeOnClick,
       className,
       ...options,
-    })
+    }
 
-    popup.setContent(container)
+    const popup = !marker && position 
+      ? L.popup(popupOptions).setLatLng(position)
+      : L.popup(popupOptions)
+
+    popup.setContent(containerElement)
     popupRef.current = popup
 
-    // Bind to marker or open at position
+    // Bind to marker (don't open yet)
     if (marker) {
       marker.bindPopup(popup)
-    } else if (position) {
-      popup.setLatLng(position).openOn(map)
     }
 
     // Cleanup
@@ -77,21 +79,37 @@ export function Popup({
       }
       popup.remove()
       popupRef.current = null
-      containerRef.current = null
+      setContainer(null)
     }
   }, [map, marker]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Open popup after container is ready
+  useEffect(() => {
+    if (popupRef.current && container && map) {
+      if (marker) {
+        // For marker-bound popups, open them (in real usage, they'd open on click)
+        popupRef.current.openOn(map)
+      } else if (position) {
+        // For standalone popups, open at position
+        popupRef.current.openOn(map)
+      }
+    }
+  }, [container, map, marker, position])
+
   // Update position for standalone popups
   useEffect(() => {
-    if (popupRef.current && position && !marker) {
+    if (popupRef.current && position && !marker && map) {
       popupRef.current.setLatLng(position)
+      if (!popupRef.current.isOpen()) {
+        popupRef.current.openOn(map)
+      }
     }
-  }, [position, marker])
+  }, [position, marker, map])
 
   // Render children into popup container using portal
-  if (!containerRef.current) {
+  if (!container) {
     return null
   }
 
-  return createPortal(children, containerRef.current)
+  return createPortal(children, container)
 }
