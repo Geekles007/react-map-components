@@ -3,7 +3,6 @@ import { describe, it, expect } from 'vitest'
 import L from 'leaflet'
 import { GeoJSON } from './GeoJSON'
 import { MapContainer } from '../MapContainer'
-import React from 'react'
 
 describe('GeoJSON', () => {
   const mockGeoJSON: GeoJSON.FeatureCollection = {

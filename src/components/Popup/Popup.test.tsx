@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 import { MapContainer } from '../MapContainer'
 import { Marker } from '../Marker'
 import { Popup } from './Popup'
-import React from 'react'
 
 describe('Popup', () => {
   it('renders children content', () => {

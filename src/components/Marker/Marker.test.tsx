@@ -3,7 +3,6 @@ import { describe, it, expect } from 'vitest'
 import L from 'leaflet'
 import { Marker } from './Marker'
 import { MapContainer } from '../MapContainer'
-import React from 'react'
 
 describe('Marker', () => {
   it('creates a marker at the specified position', () => {
