@@ -98,7 +98,7 @@ function MapContainerInner({
 }
 
 /**
- * Main container component for creating a Leaflet map
+ * Main container component for creating a Leaflet  map
  * 
  * @example
  * ```tsx
