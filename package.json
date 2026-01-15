@@ -1,5 +1,5 @@
 {
-  "name": "motion-map-components",
+  "name": "@geekles/motion-map-components",
   "version": "0.2.0",
   "description": "Modern React components for interactive maps with Leaflet",
   "author": "Geekles",
