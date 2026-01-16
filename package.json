@@ -6,11 +6,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Geekles007/react-map-components.git"
+    "url": "git+https://github.com/Geekles007/motion-map-components.git"
   },
-  "homepage": "https://github.com/Geekles007/react-map-components#readme",
+  "homepage": "https://github.com/Geekles007/motion-map-components#readme",
   "bugs": {
-    "url": "https://github.com/Geekles007/react-map-components/issues"
+    "url": "https://github.com/Geekles007/motion-map-components/issues"
   },
   "keywords": [
     "react",

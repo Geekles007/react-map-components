@@ -19,13 +19,13 @@ Modern, lightweight React components for interactive maps built on top of Leafle
 
 ```bash
 # npm
-npm install @geekles/react-map-components
+npm install @geekles007/motion-map-components
 
 # yarn
-yarn add @geekles/react-map-components
+yarn add @geekles007/motion-map-components
 
 # pnpm
-pnpm add @geekles/react-map-components
+pnpm add @geekles007/motion-map-components
 ```
 
 ## 🚀 Quick Start
@@ -134,7 +134,7 @@ Render GeoJSON data on your map.
 Access the map instance from any child component.
 
 ```tsx
-import { useMap } from '@geekles/react-map-components'
+import { useMap } from '@geekles007/motion-map-components'
 
 function MyComponent() {
   const map = useMap()
@@ -152,7 +152,7 @@ function MyComponent() {
 Subscribe to map events.
 
 ```tsx
-import { useMapEvents } from '@geekles/react-map-components'
+import { useMapEvents } from '@geekles007/motion-map-components'
 
 function LocationLogger() {
   useMapEvents({
@@ -173,7 +173,7 @@ function LocationLogger() {
 Import the default styles:
 
 ```tsx
-import '@geekles/react-map-components/styles.css'
+import '@geekles007/motion-map-components/styles.css'
 ```
 
 Or customize with your own CSS:
@@ -199,7 +199,7 @@ import type {
   MapContainerProps, 
   MarkerProps, 
   LatLngExpression 
-} from '@geekles/react-map-components'
+} from '@geekles007/motion-map-components'
 ```
 
 ## 🤝 Contributing

@@ -35,6 +35,12 @@ const mockMarker = {
     enable: vi.fn(),
     disable: vi.fn(),
   },
+  openPopup: vi.fn(function(this: any) {
+    if (this._popup) {
+      this._popup.openOn()
+    }
+    return this
+  }),
 }
 
 const createMockPopup = (options?: any) => ({

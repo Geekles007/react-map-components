@@ -87,16 +87,14 @@ export function Popup({
   useEffect(() => {
     if (popupRef.current && container && map) {
       if (marker) {
-        // For marker-bound popups, open them (in real usage, they'd open on click)
-        popupRef.current.openOn(map)
+        // For marker-bound popups, use marker's openPopup method which handles position
+        marker.openPopup()
       } else if (position) {
         // For standalone popups, open at position
         popupRef.current.openOn(map)
       }
     }
-  }, [container, map, marker, position])
-
-  // Update position for standalone popups
+  }, [container, map, marker, position])  // Update position for standalone popups
   useEffect(() => {
     if (popupRef.current && position && !marker && map) {
       popupRef.current.setLatLng(position)
